@@ -18,7 +18,7 @@ class LinkRequest(BaseModel):
     )
     url: str = Field(pattern=r"^https?://", default="https://")
     max_timeout: int = Field(
-        default=60,
+        default=consts.DEFAULT_MAX_TIMEOUT,
         description="Maximum timeout in seconds for resolving the anti-bot challenge.",
     )
 

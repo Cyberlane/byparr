@@ -1,6 +1,6 @@
 services:
   byparr:
-    image: ghcr.io/thephaseless/byparr:latest
+    image: byparr:local
     restart: unless-stopped
     init: true
     build:

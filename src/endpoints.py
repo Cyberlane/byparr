@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import RedirectResponse
 from playwright_captcha import CaptchaType
 
-from src.consts import CHALLENGE_TITLES
+from src.consts import CHALLENGE_TITLES, DEFAULT_WAIT_STATE
 from src.models import (
     HealthcheckResponse,
     LinkRequest,
@@ -59,14 +59,11 @@ async def read_item(request: LinkRequest, dep: CamoufoxDep) -> LinkResponse:
     request.url = request.url.replace('"', "").strip()
     try:
         page_request = await dep.page.goto(
-            request.url, timeout=timer.remaining() * 1000
+            request.url, timeout=timer.remaining() * 1000, wait_until=DEFAULT_WAIT_STATE
         )
         status = page_request.status if page_request else HTTPStatus.OK
         await dep.page.wait_for_load_state(
-            state="domcontentloaded", timeout=timer.remaining() * 1000
-        )
-        await dep.page.wait_for_load_state(
-            "networkidle", timeout=timer.remaining() * 1000
+            state=DEFAULT_WAIT_STATE, timeout=timer.remaining() * 1000
         )
 
         if await dep.page.title() in CHALLENGE_TITLES:

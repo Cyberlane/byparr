@@ -22,6 +22,19 @@ PROXY_PASSWORD = os.getenv("PROXY_PASSWORD")
 HOST = os.getenv("HOST", "0.0.0.0")  # noqa: S104
 PORT = int(os.getenv("PORT", "8191"))
 
+DEFAULT_MAX_TIMEOUT = int(os.getenv("DEFAULT_MAX_TIMEOUT", "30"))
+DEFAULT_WAIT_STATE = os.getenv("DEFAULT_WAIT_STATE", "domcontentloaded")
+
+# Ad‑blocking route interceptor
+BLOCKED_URL_PATTERNS: list[str] = [
+    pattern.strip()
+    for pattern in os.getenv(
+        "BLOCKED_URL_PATTERNS",
+        "doubleclick.net,googleadservices.com,googlesyndication.com,google-analytics.com,adsystem.com,adservice.google.com,pagead2.googlesyndication.com",
+    ).split(",")
+    if pattern.strip()
+]
+
 CHALLENGE_TITLES_MAP: dict[CaptchaType, list[str]] = {
     # Cloudflare
     CaptchaType.CLOUDFLARE_INTERSTITIAL: ["Just a moment..."],

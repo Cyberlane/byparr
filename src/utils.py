@@ -14,6 +14,7 @@ from pydantic import BaseModel, Field
 
 from src.consts import (
     ADDON_PATH,
+    BLOCKED_URL_PATTERNS,
     LOG_LEVEL,
     MAX_ATTEMPTS,
     PROXY_PASSWORD,
@@ -107,6 +108,16 @@ async def get_camoufox(
         browser = cast("Browser", browser_raw)
         context = await browser.new_context()
         page = await context.new_page()
+
+        # Route interceptor — block ad/tracker requests before they load
+        async def _block_ads(route):
+            url = route.request.url
+            if any(pattern in url for pattern in BLOCKED_URL_PATTERNS):
+                await route.abort()
+            else:
+                await route.continue_()
+
+        await page.route("**/*", _block_ads)
         async with ClickSolver(
             framework=FrameworkType.CAMOUFOX,
             page=page,
