@@ -36,7 +36,12 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 RUN mkdir -p /cache &&\
     apt-get update &&\
-    apt-get install -y --no-install-recommends libgtk-3-0 libgdk-pixbuf-2.0-0 libx11-xcb1 libdbus-glib-1-2 libxtst6 libnss3 libnspr4 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 &&\
+    apt-get install -y --no-install-recommends \
+      libgtk-3-0 libgtk-3-bin libgdk-pixbuf-2.0-0 \
+      libx11-xcb1 libdbus-glib-1-2 libxtst6 \
+      libnss3 libnspr4 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 \
+      libasound2 libpulse0 libxcomposite1 libxdamage1 libxfixes3 \
+      libxrandr2 libpango-1.0-0 libcairo2 &&\
     uv sync &&\
     uv run camoufox fetch &&\
     uv run playwright install-deps firefox &&\
