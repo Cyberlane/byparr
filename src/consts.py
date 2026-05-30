@@ -30,7 +30,7 @@ BLOCKED_URL_PATTERNS: list[str] = [
     pattern.strip()
     for pattern in os.getenv(
         "BLOCKED_URL_PATTERNS",
-        "doubleclick.net,googleadservices.com,googlesyndication.com,google-analytics.com,adsystem.com,adservice.google.com,pagead2.googlesyndication.com",
+        "doubleclick.net,googleadservices.com,googlesyndication.com,google-analytics.com,adsystem.com,adservice.google.com,pagead2.googlesyndication.com,yandex.ru,mc.yandex,facebook.net,fbcdn.net,pubfuture.com,pubfuture-ad.com,googletagmanager.com,cloudflareinsights.com,widgetlogic.org",
     ).split(",")
     if pattern.strip()
 ]
